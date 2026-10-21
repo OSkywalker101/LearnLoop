@@ -2,6 +2,12 @@
 
 A personalized AI-powered learning platform that adapts to your pace, knowledge level, and goals. Built as a polished portfolio project demonstrating full-stack development, AI integration, and cloud deployment.
 
+## Live Demo
+
+**[https://learnloop-academy.netlify.app](https://learnloop-academy.netlify.app)**
+
+Sign in with `oskywalker@gmail.com` / `OS10`, or use **Continue with demo** to skip the form.
+
 ## Features
 
 - **Personalized Curriculum Generation** - AI creates structured learning paths based on your subject, time availability, current knowledge, and desired depth
@@ -222,6 +228,23 @@ npm run preview
 Output is in `dist/` directory.
 
 ## Deployment
+
+The live deployment is hosted on **Netlify**: [https://learnloop-academy.netlify.app](https://learnloop-academy.netlify.app)
+
+| Setting | Value |
+|---|---|
+| Site | `learnloop-academy` |
+| Build command | `npm run build` |
+| Publish directory | `dist` |
+| Framework preset | Vite |
+| SPA rewrite | `/*` → `/index.html` (200) |
+
+Deploy a new version with:
+
+```bash
+npm run build
+npx netlify deploy --prod --dir=dist
+```
 
 ### Firebase Hosting (Recommended)
 
