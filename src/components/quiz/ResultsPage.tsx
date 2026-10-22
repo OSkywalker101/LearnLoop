@@ -30,8 +30,8 @@ export const ResultsPage: React.FC = () => {
 
   if (!quizAttempt || !currentQuiz || !currentLesson || !course) {
     return (
-      <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
-        <div className="text-center p-8">
+      <div className="min-h-screen bg-neutral-50 flex px-6">
+        <div className="text-center p-8 m-auto">
           <p className="text-neutral-600">No quiz results available</p>
           <Button onClick={() => navigate('/dashboard')} className="mt-4">Back to Dashboard</Button>
         </div>
@@ -94,10 +94,10 @@ export const ResultsPage: React.FC = () => {
               variant={passed ? 'success' : 'warning'}
             />
           </div>
-          <h1 className="text-3xl font-bold text-neutral-900 mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 mb-2">
             {passed ? 'Quiz Passed!' : 'Keep Practicing'}
           </h1>
-          <p className="text-lg text-neutral-600">
+          <p className="text-base sm:text-lg text-neutral-600">
             You scored <span className="font-semibold text-neutral-900">{score}%</span> 
             ({correctCount} of {currentQuiz.questions.length} correct)
           </p>
@@ -139,9 +139,9 @@ export const ResultsPage: React.FC = () => {
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${isCorrect ? 'bg-green-100' : 'bg-red-100'}`}>
                         {isCorrect ? <CheckCircle className="w-5 h-5 text-green-600" /> : <XCircle className="w-5 h-5 text-red-600" />}
                       </div>
-                      <div className="flex-1">
-                        <p className="font-medium text-neutral-900">{question.question}</p>
-                        <div className="flex items-center gap-2 mt-1 text-sm">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-neutral-900 break-words">{question.question}</p>
+                        <div className="flex flex-wrap items-center gap-2 mt-1 text-sm">
                           <Badge variant={isCorrect ? 'success' : 'default'} size="sm">
                             {isCorrect ? 'Correct' : 'Incorrect'}
                           </Badge>
@@ -153,7 +153,7 @@ export const ResultsPage: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="ml-11 space-y-1 text-sm">
+                    <div className="ml-4 sm:ml-11 space-y-1 text-sm">
                       <p className="text-neutral-600">
                         <span className="font-medium">Your answer:</span> 
                         {question.type === 'multiple-select' 
@@ -182,19 +182,21 @@ export const ResultsPage: React.FC = () => {
           <CardContent>
             <div className="space-y-3">
               {Object.entries(conceptScores).map(([conceptId, conceptScore]) => (
-                <div key={conceptId} className="flex items-center gap-4">
-                  <div className="w-40 text-sm text-neutral-600 font-medium truncate" title={conceptName(conceptId)}>{conceptName(conceptId)}</div>
-                  <div className="flex-1">
-                    <Progress 
-                      value={conceptScore} 
-                      max={100} 
-                      size="sm" 
-                      variant={conceptScore >= 80 ? 'success' : conceptScore >= 60 ? 'warning' : 'default'}
-                    />
+                <div key={conceptId} className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:gap-4">
+                  <div className="text-sm text-neutral-600 font-medium break-words sm:w-40 sm:shrink-0 sm:truncate" title={conceptName(conceptId)}>{conceptName(conceptId)}</div>
+                  <div className="flex items-center gap-3 flex-1 min-w-0">
+                    <div className="flex-1 min-w-0">
+                      <Progress 
+                        value={conceptScore} 
+                        max={100} 
+                        size="sm" 
+                        variant={conceptScore >= 80 ? 'success' : conceptScore >= 60 ? 'warning' : 'default'}
+                      />
+                    </div>
+                    <span className={`text-sm font-medium shrink-0 ${conceptScore >= 80 ? 'text-green-600' : conceptScore >= 60 ? 'text-amber-600' : 'text-red-600'}`}>
+                      {conceptScore}%
+                    </span>
                   </div>
-                  <span className={`text-sm font-medium ${conceptScore >= 80 ? 'text-green-600' : conceptScore >= 60 ? 'text-amber-600' : 'text-red-600'}`}>
-                    {conceptScore}%
-                  </span>
                 </div>
               ))}
             </div>
@@ -218,7 +220,7 @@ export const ResultsPage: React.FC = () => {
                     className="w-full justify-start gap-3"
                     onClick={() => rec.lessonId && selectLesson(rec.lessonId)}
                   >
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${
                       rec.type === 'next-lesson' ? 'bg-blue-100 text-blue-600' :
                       rec.type === 'revision' ? 'bg-amber-100 text-amber-600' :
                       rec.type === 'prerequisite-review' ? 'bg-red-100 text-red-600' :
@@ -229,11 +231,11 @@ export const ResultsPage: React.FC = () => {
                       {rec.type === 'prerequisite-review' && <ArrowRight className="w-5 h-5" />}
                       {rec.type === 'harder-exercise' && <TrendingUp className="w-5 h-5" />}
                     </div>
-                    <div className="text-left">
-                      <p className="font-medium text-neutral-900">{rec.reason}</p>
+                    <div className="text-left min-w-0">
+                      <p className="font-medium text-neutral-900 break-words">{rec.reason}</p>
                       <p className="text-xs text-neutral-500">{rec.type.replace('-', ' ')} · {Math.round(rec.confidence * 100)}% confidence</p>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-neutral-400 ml-auto" />
+                    <ChevronRight className="w-4 h-4 text-neutral-400 ml-auto flex-shrink-0" />
                   </Button>
                 ))}
               </div>

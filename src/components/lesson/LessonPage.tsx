@@ -54,13 +54,15 @@ const MermaidDiagram: React.FC<{ code: string; title: string }> = ({ code, title
           mermaid.initialize({ 
             startOnLoad: false, 
             theme: 'base',
+            htmlLabels: false,
             themeVariables: {
               primaryColor: '#0ea5e9',
               primaryTextColor: '#171717',
               primaryBorderColor: '#0ea5e9',
               lineColor: '#525252',
               secondaryColor: '#f0f9ff',
-              tertiaryColor: '#ffffff'
+              tertiaryColor: '#ffffff',
+              fontSize: '15px'
             },
             securityLevel: 'loose',
             fontFamily: 'Inter, system-ui, sans-serif'
@@ -168,22 +170,23 @@ const AudioPlayer: React.FC<{ text: string; onPlayChange?: (playing: boolean) =>
   }
 
   return (
-    <div className="flex items-center gap-3 p-4 bg-primary-50 border border-primary-100 rounded-xl">
+    <div className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-primary-50 border border-primary-100 rounded-xl">
       <Button 
         variant={playing ? 'secondary' : 'primary'} 
         size="sm"
         onClick={togglePlay}
         aria-label={playing ? 'Pause audio' : 'Play audio'}
+        className="shrink-0"
       >
         {playing ? <PauseCircle className="w-5 h-5" /> : <PlayCircle className="w-5 h-5" />}
       </Button>
-      <Button variant="ghost" size="sm" onClick={stop} aria-label="Stop audio">
+      <Button variant="ghost" size="sm" onClick={stop} aria-label="Stop audio" className="shrink-0">
         <VolumeX className="w-5 h-5" />
       </Button>
-      <div className="flex-1 text-sm text-neutral-700">
+      <div className="flex-1 min-w-0 text-sm text-neutral-700">
         {playing ? 'Playing lesson content...' : paused ? 'Paused' : 'Tap to listen to this lesson'}
       </div>
-      <Headphones className="w-5 h-5 text-primary-600" />
+      <Headphones className="w-5 h-5 text-primary-600 hidden sm:block shrink-0" />
     </div>
   )
 }
@@ -252,8 +255,8 @@ export const LessonPage: React.FC = () => {
 
   if (!currentLesson || !course) {
     return (
-      <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
-        <div className="text-center p-8">
+      <div className="min-h-screen bg-neutral-50 flex px-6">
+        <div className="text-center p-8 m-auto">
           <p className="text-neutral-600">No lesson selected</p>
           <Button onClick={() => navigate('/dashboard')} className="mt-4">Back to Dashboard</Button>
         </div>
@@ -269,23 +272,25 @@ export const LessonPage: React.FC = () => {
     <div className="min-h-screen bg-neutral-50">
       <header className="border-b border-neutral-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-4">
-              <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard')}>
+          <div className="flex items-center justify-between gap-2 h-16">
+            <div className="flex items-center gap-3 min-w-0">
+              <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard')} className="shrink-0">
                 <ArrowLeft className="w-4 h-4" />
               </Button>
-              <div>
-                <p className="text-xs text-neutral-500 font-medium uppercase tracking-wide">
+              <div className="min-w-0">
+                <p className="text-xs text-neutral-500 font-medium uppercase tracking-wide truncate">
                   {course.modules.find(m => m.id === currentLesson.moduleId)?.title || 'Course'}
                 </p>
-                <h1 className="text-lg font-semibold text-neutral-900 truncate max-w-md">{currentLesson.title}</h1>
+                <h1 className="text-base sm:text-lg font-semibold text-neutral-900 truncate">{currentLesson.title}</h1>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 shrink-0">
               <Badge variant="primary" size="sm">{formatDuration(currentLesson.estimatedMinutes)}</Badge>
-              <Badge variant={currentLesson.status === 'completed' ? 'success' : 'default'} size="sm">
-                {currentLesson.status}
-              </Badge>
+              <span className="hidden sm:inline-flex">
+                <Badge variant={currentLesson.status === 'completed' ? 'success' : 'default'} size="sm">
+                  {currentLesson.status}
+                </Badge>
+              </span>
             </div>
           </div>
         </div>
@@ -304,7 +309,7 @@ export const LessonPage: React.FC = () => {
             <AudioPlayer text={fullText} />
 
             <div className="mt-6 border-b border-neutral-200">
-              <nav className="flex gap-1 pb-1" role="tablist" aria-label="Lesson sections">
+              <nav className="flex gap-1 pb-1 overflow-x-auto no-scrollbar" role="tablist" aria-label="Lesson sections">
                 {[
                   { id: 'overview', label: 'Overview', icon: <Target className="w-4 h-4" /> },
                   { id: 'deep-dive', label: 'Deep Dive', icon: <BookOpen className="w-4 h-4" /> },
@@ -316,7 +321,7 @@ export const LessonPage: React.FC = () => {
                     aria-selected={activeTab === tab.id}
                     aria-controls={`panel-${tab.id}`}
                     onClick={() => setActiveTab(tab.id as typeof activeTab)}
-                    className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+                    className={`px-3 sm:px-4 py-2 rounded-xl text-sm font-medium transition-colors whitespace-nowrap shrink-0 flex items-center ${
                       activeTab === tab.id
                         ? 'bg-primary-100 text-primary-700'
                         : 'text-neutral-500 hover:text-neutral-700 hover:bg-neutral-100'
@@ -506,25 +511,29 @@ export const LessonPage: React.FC = () => {
               </Card>
             </div>
 
-            <div className="mt-8 flex items-center justify-between pt-6 border-t border-neutral-200">
+            <div className="mt-8 grid grid-cols-2 sm:grid-cols-[auto_1fr_auto] items-center gap-3 pt-6 border-t border-neutral-200">
               <Button 
                 variant="outline" 
                 onClick={() => { if (prevLesson) selectLesson(prevLesson.id).catch(() => {}) }}
                 disabled={!prevLesson || prevLesson.status === 'locked'}
+                className="w-full sm:w-auto"
               >
                 <ChevronLeft className="w-4 h-4 mr-2" />
-                Previous Lesson
+                <span className="sm:hidden">Previous</span>
+                <span className="hidden sm:inline">Previous Lesson</span>
               </Button>
-              <div className="flex items-center gap-4 text-sm text-neutral-500">
-                <span>Lesson {currentIndex + 1} of {course.lessons.length}</span>
+              <div className="col-span-2 order-first sm:order-none sm:col-span-1 flex items-center justify-center gap-4 text-sm text-neutral-500">
+                <span className="shrink-0">Lesson {currentIndex + 1} of {course.lessons.length}</span>
                 <Progress value={((currentIndex + 1) / course.lessons.length) * 100} max={100} size="sm" className="w-32" />
               </div>
               <Button 
                 variant="primary" 
                 onClick={() => { if (nextLesson) selectLesson(nextLesson.id).catch(() => {}) }}
                 disabled={!nextLesson || nextLesson.status === 'locked'}
+                className="w-full sm:w-auto"
               >
-                Next Lesson
+                <span className="sm:hidden">Next</span>
+                <span className="hidden sm:inline">Next Lesson</span>
                 <ChevronRight className="w-4 h-4 ml-2" />
               </Button>
             </div>

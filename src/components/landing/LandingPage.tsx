@@ -67,17 +67,20 @@ export const LandingPage: React.FC = () => {
               </Link>
               <Link to="/login"><Button variant="primary" size="sm">Start Learning</Button></Link>
             </div>
+            <Link to="/login" className="md:hidden">
+              <Button variant="primary" size="sm">Start Learning</Button>
+            </Link>
           </div>
         </nav>
       </header>
 
       <main>
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32" aria-labelledby="hero-heading">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-32" aria-labelledby="hero-heading">
           <div className="text-center max-w-3xl mx-auto">
             <h1 id="hero-heading" className="text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-900 tracking-tight leading-tight">
               Learn <span className="text-primary-600">Anything</span>, Adaptively
             </h1>
-            <p className="mt-6 text-lg sm:text-xl text-neutral-600 max-w-2xl mx-auto leading-relaxed">
+            <p className="mt-6 text-base sm:text-lg xl:text-xl text-neutral-600 max-w-2xl mx-auto leading-relaxed">
               Tell us what you want to learn, how much time you have, and how deep you want to go. 
               LearnLoop builds a personalized curriculum, breaks it into realistic lessons, and adapts 
               based on your quiz performance — like Duolingo meets a personal AI tutor.
@@ -98,7 +101,7 @@ export const LandingPage: React.FC = () => {
               <h2 id="features-heading" className="text-3xl sm:text-4xl font-bold text-neutral-900">
                 How LearnLoop Works
               </h2>
-              <p className="mt-4 text-lg text-neutral-600 max-w-2xl mx-auto">
+              <p className="mt-4 text-base sm:text-lg text-neutral-600 max-w-2xl mx-auto">
                 Four steps from goal to mastery — no rigid templates, just your personalized path.
               </p>
             </div>
@@ -123,18 +126,18 @@ export const LandingPage: React.FC = () => {
             <h2 id="preview-heading" className="text-3xl sm:text-4xl font-bold text-neutral-900">
               Inside a Lesson
             </h2>
-            <p className="mt-4 text-lg text-neutral-600 max-w-2xl mx-auto">
+            <p className="mt-4 text-base sm:text-lg text-neutral-600 max-w-2xl mx-auto">
               Rich, structured content blocks — not just AI-generated walls of text.
             </p>
           </div>
           <Card variant="elevated" padding="lg">
             <div className="mb-6">
-              <div className="flex items-center justify-between mb-4">
-                <div>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                <div className="min-w-0">
                   <Badge variant="primary" size="sm" className="mb-2">{sampleLesson.module}</Badge>
-                  <h3 className="text-xl font-semibold text-neutral-900">{sampleLesson.title}</h3>
+                  <h3 className="text-lg sm:text-xl font-semibold text-neutral-900">{sampleLesson.title}</h3>
                 </div>
-                <div className="flex items-center gap-4 text-sm text-neutral-500">
+                <div className="flex items-center gap-3 sm:gap-4 text-sm text-neutral-500 w-full sm:w-auto shrink-0">
                   <span className="flex items-center gap-1.5">{sampleLesson.duration}</span>
                   <div className="w-32 h-2 bg-neutral-200 rounded-full overflow-hidden">
                     <div className="h-full bg-primary-600 rounded-full transition-all" style={{ width: `${sampleLesson.progress}%` }} />
@@ -163,7 +166,7 @@ export const LandingPage: React.FC = () => {
             <h2 id="cta-heading" className="text-3xl sm:text-4xl font-bold text-white">
               Ready to start learning?
             </h2>
-            <p className="mt-4 text-lg text-primary-100 max-w-2xl mx-auto">
+            <p className="mt-4 text-base sm:text-lg text-primary-100 max-w-2xl mx-auto">
               Create your first personalized curriculum in under 2 minutes. No credit card, no installation.
             </p>
             <div className="mt-8">

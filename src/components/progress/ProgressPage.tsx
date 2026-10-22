@@ -31,8 +31,8 @@ export const ProgressPage: React.FC = () => {
 
   if (!course && courses.length === 0) {
     return (
-      <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
-        <div className="text-center p-8">
+      <div className="min-h-screen bg-neutral-50 flex px-6">
+        <div className="text-center p-8 m-auto">
           <div className="w-16 h-16 rounded-2xl bg-neutral-100 flex items-center justify-center mx-auto mb-6">
             <BarChart2 className="w-8 h-8 text-neutral-400" />
           </div>
@@ -63,21 +63,22 @@ export const ProgressPage: React.FC = () => {
     <div className="min-h-screen bg-neutral-50">
       <header className="border-b border-neutral-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-4">
-              <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard')}>
+          <div className="flex items-center justify-between gap-3 h-16">
+            <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+              <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard')} className="shrink-0">
                 <ArrowLeft className="w-4 h-4" />
               </Button>
-              <div>
+              <div className="min-w-0">
                 <h1 className="text-xl font-bold text-neutral-900">Progress</h1>
-                <p className="text-sm text-neutral-500">Track your learning journey</p>
+                <p className="text-sm text-neutral-500 hidden sm:block">Track your learning journey</p>
               </div>
             </div>
             {courses.length > 1 && (
               <select
                 value={currentCourse?.id || ''}
                 onChange={e => loadCourse(e.target.value)}
-                className="px-3 py-2 rounded-xl border border-neutral-200 bg-white text-sm text-neutral-900 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                aria-label="Select course"
+                className="min-w-0 max-w-[45%] sm:max-w-none px-3 py-2 rounded-xl border border-neutral-200 bg-white text-sm text-neutral-900 focus:outline-none focus:ring-2 focus:ring-primary-500"
               >
                 {courses.map(c => (
                   <option key={c.id} value={c.id}>{c.title}</option>
@@ -143,8 +144,8 @@ export const ProgressPage: React.FC = () => {
               </Card>
             </div>
 
-            <div className="grid lg:grid-cols-3 gap-8">
-              <div className="lg:col-span-2 space-y-6">
+            <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
+              <div className="lg:col-span-2 space-y-6 min-w-0">
                 <Card variant="outlined" padding="lg">
                   <CardHeader>
                     <CardTitle>Concept Mastery</CardTitle>
@@ -161,14 +162,14 @@ export const ProgressPage: React.FC = () => {
                         const variants = { success: 'success', info: 'info', warning: 'warning', danger: 'danger', default: 'default' } as const
                         return category.concepts.length > 0 && (
                           <div key={category.label} className="p-4 rounded-xl bg-neutral-50">
-                            <div className="flex items-center justify-between mb-3">
-                              <div className="flex items-center gap-2">
+                            <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                              <div className="flex flex-wrap items-center gap-2 min-w-0">
                                 <Badge variant={variants[category.color as keyof typeof variants]} size="sm" dot>
                                   {category.label}
                                 </Badge>
                                 <span className="text-sm text-neutral-500">{category.concepts.length} concepts</span>
                               </div>
-                              <span className="text-sm font-medium text-neutral-900">
+                              <span className="text-sm font-medium text-neutral-900 shrink-0">
                                 {Math.round(category.concepts.reduce((sum, [, m]) => sum + m.accuracy, 0) / category.concepts.length)}% avg
                               </span>
                             </div>
@@ -204,17 +205,17 @@ export const ProgressPage: React.FC = () => {
                         .slice(-10)
                         .reverse()
                         .map(session => (
-                          <div key={session.id} className="flex items-center justify-between p-3 bg-neutral-50 rounded-xl">
-                            <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-lg bg-primary-100 flex items-center justify-center">
+                          <div key={session.id} className="flex items-center justify-between gap-3 p-3 bg-neutral-50 rounded-xl">
+                            <div className="flex items-center gap-3 min-w-0">
+                              <div className="w-10 h-10 rounded-lg bg-primary-100 flex items-center justify-center flex-shrink-0">
                                 <BookOpen className="w-5 h-5 text-primary-600" />
                               </div>
-                              <div>
+                              <div className="min-w-0">
                                 <p className="font-medium text-neutral-900">Lesson {session.lessonId.replace('lesson-', '')}</p>
                                 <p className="text-sm text-neutral-500">{formatRelativeTime(session.startedAt)} · {session.durationMinutes} min</p>
                               </div>
                             </div>
-                            <Badge variant={session.completed ? 'success' : 'default'} size="sm">
+                            <Badge variant={session.completed ? 'success' : 'default'} size="sm" className="flex-shrink-0">
                               {session.completed ? 'Completed' : 'Incomplete'}
                             </Badge>
                           </div>
@@ -227,7 +228,7 @@ export const ProgressPage: React.FC = () => {
                 </Card>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-6 min-w-0">
                 <Card variant="outlined" padding="lg">
                   <CardHeader>
                     <CardTitle>Achievements</CardTitle>
@@ -287,8 +288,8 @@ export const ProgressPage: React.FC = () => {
                           className="w-full justify-start"
                           onClick={() => setView('dashboard')}
                         >
-                          <RotateCcw className="w-5 h-5 mr-2" />
-                          <div className="text-left">
+                          <RotateCcw className="w-5 h-5 mr-2 flex-shrink-0" />
+                          <div className="text-left min-w-0">
                             <p className="font-medium">Review Weak Concepts</p>
                             <p className="text-xs text-neutral-500">{currentProgress.weakConcepts.length} concepts need attention</p>
                           </div>
@@ -300,8 +301,8 @@ export const ProgressPage: React.FC = () => {
                           className="w-full justify-start"
                           onClick={() => setView('dashboard')}
                         >
-                          <PlayCircle className="w-5 h-5 mr-2" />
-                          <div className="text-left">
+                          <PlayCircle className="w-5 h-5 mr-2 flex-shrink-0" />
+                          <div className="text-left min-w-0">
                             <p className="font-medium">Continue Learning</p>
                             <p className="text-xs text-neutral-500">{currentProgress.totalLessons - currentProgress.lessonsCompleted} lessons remaining</p>
                           </div>
@@ -313,8 +314,8 @@ export const ProgressPage: React.FC = () => {
                           className="w-full justify-start"
                           onClick={() => navigate('/wizard')}
                         >
-                          <Trophy className="w-5 h-5 mr-2" />
-                          <div className="text-left">
+                          <Trophy className="w-5 h-5 mr-2 flex-shrink-0" />
+                          <div className="text-left min-w-0">
                             <p className="font-medium">Start New Course</p>
                             <p className="text-xs text-neutral-500">You completed this one!</p>
                           </div>

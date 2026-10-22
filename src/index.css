@@ -41,6 +41,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
   }
   
   body {
@@ -54,11 +55,13 @@
     border-color: var(--color-neutral-200);
   }
   
+  h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+  }
+  
   :focus-visible {
-    outline: none;
-    ring: 2px;
-    ring-color: var(--color-primary-500);
-    ring-offset: 2px;
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
   }
   
   ::selection {
@@ -184,6 +187,15 @@
     background-color: var(--color-neutral-400);
   }
   
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
   .text-balance {
     text-wrap: balance;
   }
@@ -207,12 +219,5 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-}
-
-@media (max-width: 640px) {
-  .container {
-    padding-left: 1rem;
-    padding-right: 1rem;
   }
 }

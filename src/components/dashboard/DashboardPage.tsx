@@ -24,8 +24,8 @@ export const DashboardPage: React.FC = () => {
 
   if (!course) {
     return (
-      <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
-        <div className="text-center p-8">
+      <div className="min-h-screen bg-neutral-50 flex px-6">
+        <div className="text-center p-8 m-auto">
           <div className="w-16 h-16 rounded-2xl bg-primary-100 flex items-center justify-center mx-auto mb-6">
             <BookOpen className="w-8 h-8 text-primary-600" />
           </div>
@@ -73,12 +73,12 @@ export const DashboardPage: React.FC = () => {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h1 className="text-3xl font-bold text-neutral-900">{course.title}</h1>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+            <div className="min-w-0">
+              <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900">{course.title}</h1>
               <p className="text-neutral-600 mt-1">{course.description}</p>
             </div>
-            <div className="flex items-center gap-4 text-sm text-neutral-500">
+            <div className="flex items-center gap-4 text-sm text-neutral-500 shrink-0">
               <span className="flex items-center gap-1.5">
                 <Clock className="w-4 h-4" />
                 {formatDuration(course.totalEstimatedMinutes)}
@@ -139,15 +139,15 @@ export const DashboardPage: React.FC = () => {
         {nextLesson && (
           <div className="mb-8">
             <Card variant="elevated" padding="lg">
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-3">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-wrap items-center gap-3 mb-3">
                     <Badge variant="primary" size="sm">{currentModule?.title || 'Current Module'}</Badge>
                     <Badge variant={nextLesson.status === 'in-progress' ? 'info' : 'default'} size="sm">
                       {nextLesson.status === 'in-progress' ? 'In Progress' : 'Next Up'}
                     </Badge>
                   </div>
-                  <h2 className="text-xl font-semibold text-neutral-900 mb-2">{nextLesson.title}</h2>
+                  <h2 className="text-lg sm:text-xl font-semibold text-neutral-900 mb-2">{nextLesson.title}</h2>
                   <p className="text-neutral-600 mb-4">{nextLesson.description}</p>
                   <div className="flex flex-wrap items-center gap-4 text-sm text-neutral-500">
                     <span className="flex items-center gap-1.5">
@@ -163,7 +163,7 @@ export const DashboardPage: React.FC = () => {
                 <Button 
                   size="lg" 
                   onClick={() => { selectLesson(nextLesson.id).catch(() => {}) }}
-                  className="w-full sm:w-auto"
+                  className="w-full sm:w-auto shrink-0"
                 >
                   <PlayCircle className="w-5 h-5 mr-2" />
                   {nextLesson.status === 'in-progress' ? 'Continue Learning' : 'Start Lesson'}
@@ -173,8 +173,8 @@ export const DashboardPage: React.FC = () => {
           </div>
         )}
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2">
+        <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
+          <div className="lg:col-span-2 min-w-0">
             <Card variant="outlined" padding="lg">
               <CardHeader>
                 <CardTitle>Curriculum</CardTitle>
@@ -189,9 +189,9 @@ export const DashboardPage: React.FC = () => {
 
                     return (
                       <div key={module.id} className={`rounded-xl p-4 transition-colors ${isCurrentModule ? 'bg-primary-50 border border-primary-100' : 'bg-neutral-50'}`}>
-                        <div className="flex items-center justify-between mb-4">
-                          <div className="flex items-center gap-3">
-                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${
+                        <div className="flex items-start justify-between gap-3 mb-4">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0 ${
                               moduleCompletedCount === moduleLessonList.length 
                                 ? 'bg-green-100 text-green-600' 
                                 : isCurrentModule 
@@ -204,12 +204,12 @@ export const DashboardPage: React.FC = () => {
                                 moduleIndex + 1
                               )}
                             </div>
-                            <div>
+                            <div className="min-w-0">
                               <h3 className="font-semibold text-neutral-900">{module.title}</h3>
                               <p className="text-sm text-neutral-500">{module.description}</p>
                             </div>
                           </div>
-                          <div className="text-right">
+                          <div className="text-right shrink-0">
                             <p className="text-sm font-medium text-neutral-900">{moduleProgress}%</p>
                             <p className="text-xs text-neutral-500">{moduleCompletedCount} / {moduleLessonList.length} lessons</p>
                           </div>
@@ -268,7 +268,7 @@ export const DashboardPage: React.FC = () => {
             </Card>
           </div>
 
-          <div>
+          <div className="min-w-0">
             <Card variant="outlined" padding="lg">
               <CardHeader>
                 <CardTitle>Adaptive Recommendations</CardTitle>

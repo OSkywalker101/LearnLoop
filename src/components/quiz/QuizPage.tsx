@@ -106,8 +106,8 @@ export const QuizPage: React.FC = () => {
 
   if (!currentQuiz || !currentLesson || !course) {
     return (
-      <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
-        <div className="text-center p-8">
+      <div className="min-h-screen bg-neutral-50 flex px-6">
+        <div className="text-center p-8 m-auto">
           <p className="text-neutral-600">No quiz available</p>
           <Button onClick={() => navigate('/dashboard')} className="mt-4">Back to Dashboard</Button>
         </div>
@@ -125,23 +125,23 @@ export const QuizPage: React.FC = () => {
     <div className="min-h-screen bg-neutral-50">
       <header className="border-b border-neutral-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-4">
-              <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard')}>
+          <div className="flex items-center justify-between gap-2 sm:gap-4 h-16">
+            <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
+              <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard')} className="shrink-0">
                 <ChevronLeft className="w-4 h-4" />
               </Button>
-              <div className="flex-1">
+              <div className="flex-1 min-w-0">
                 <Progress value={progress} size="sm" showLabel />
               </div>
-              <div className="flex items-center gap-2 text-sm text-neutral-500">
-                {timeRemaining !== null && (
-                  <span className={`flex items-center gap-1.5 ${timeRemaining < 60 ? 'text-red-600' : ''}`}>
-                    <Clock className="w-4 h-4" />
-                    {formatTime(timeRemaining)}
-                  </span>
-                )}
-                <span>Question {currentQuestionIndex + 1} / {totalQuestions}</span>
-              </div>
+            </div>
+            <div className="flex items-center gap-2 sm:gap-3 text-sm text-neutral-500 shrink-0">
+              {timeRemaining !== null && (
+                <span className={`flex items-center gap-1.5 ${timeRemaining < 60 ? 'text-red-600' : ''}`}>
+                  <Clock className="w-4 h-4" />
+                  {formatTime(timeRemaining)}
+                </span>
+              )}
+              <span className="whitespace-nowrap">Question {currentQuestionIndex + 1} / {totalQuestions}</span>
             </div>
           </div>
         </div>
@@ -178,7 +178,7 @@ export const QuizPage: React.FC = () => {
                     {question.options?.map((option, i) => (
                       <label
                         key={i}
-                        className={`relative flex items-center p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                        className={`relative flex items-start p-4 rounded-xl border-2 cursor-pointer transition-all ${
                           answers[question.id] === option
                             ? 'border-primary-500 bg-primary-50'
                             : 'border-neutral-200 hover:border-neutral-300'
@@ -192,12 +192,12 @@ export const QuizPage: React.FC = () => {
                           onChange={() => handleOptionSelect(question.id, option)}
                           className="sr-only"
                         />
-                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mr-4 flex-shrink-0 ${
+                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 ${
                           answers[question.id] === option ? 'border-primary-500 bg-primary-500' : 'border-neutral-300'
                         }`}>
                           {answers[question.id] === option && <CheckCircle className="w-3 h-3 text-white" />}
                         </div>
-                        <span className="text-neutral-700">{option}</span>
+                        <span className="text-neutral-700 min-w-0 break-words">{option}</span>
                       </label>
                     ))}
                   </div>
@@ -210,22 +210,22 @@ export const QuizPage: React.FC = () => {
                       return (
                         <label
                           key={i}
-                          className={`relative flex items-center p-4 rounded-xl border-2 cursor-pointer transition-all ${
-                            selected ? 'border-primary-500 bg-primary-50' : 'border-neutral-200 hover:border-neutral-300'
-                          }`}
-                        >
-                          <input
-                            type="checkbox"
-                            checked={selected}
-                            onChange={() => handleOptionSelect(question.id, option)}
-                            className="sr-only"
-                          />
-                          <div className={`w-5 h-5 rounded border-2 flex items-center justify-center mr-4 flex-shrink-0 ${
-                            selected ? 'border-primary-500 bg-primary-500' : 'border-neutral-300'
-                          }`}>
-                            {selected && <CheckCircle className="w-3 h-3 text-white" />}
-                          </div>
-                          <span className="text-neutral-700">{option}</span>
+                        className={`relative flex items-start p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                          selected ? 'border-primary-500 bg-primary-50' : 'border-neutral-200 hover:border-neutral-300'
+                        }`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={selected}
+                          onChange={() => handleOptionSelect(question.id, option)}
+                          className="sr-only"
+                        />
+                        <div className={`w-5 h-5 rounded border-2 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 ${
+                          selected ? 'border-primary-500 bg-primary-500' : 'border-neutral-300'
+                        }`}>
+                          {selected && <CheckCircle className="w-3 h-3 text-white" />}
+                        </div>
+                        <span className="text-neutral-700 min-w-0 break-words">{option}</span>
                         </label>
                       )
                     })}
@@ -280,22 +280,23 @@ export const QuizPage: React.FC = () => {
           </CardContent>
         </Card>
 
-        <div className="mt-6 flex items-center justify-between">
+        <div className="mt-6 grid grid-cols-2 sm:grid-cols-[auto_1fr_auto] items-center gap-3">
           <Button 
             variant="outline" 
             onClick={handlePrevious} 
             disabled={currentQuestionIndex === 0}
+            className="w-full sm:w-auto"
           >
             <ChevronLeft className="w-4 h-4 mr-2" />
             Previous
           </Button>
           
-          <div className="flex items-center gap-2">
+          <div className="col-span-2 order-first sm:order-none sm:col-span-1 flex items-center justify-center gap-2 overflow-x-auto no-scrollbar py-1">
             {Array.from({ length: totalQuestions }, (_, i) => (
               <button
                 key={i}
                 onClick={() => { setCurrentQuestionIndex(i); setShowFeedback(false) }}
-                className={`w-8 h-8 rounded-lg text-sm font-medium transition-all ${
+                className={`w-8 h-8 rounded-lg text-sm font-medium transition-all flex-shrink-0 ${
                   i === currentQuestionIndex
                     ? 'bg-primary-600 text-white'
                     : answers[currentQuiz.questions[i]?.id]
@@ -317,11 +318,15 @@ export const QuizPage: React.FC = () => {
               loading={submitted}
               className="w-full sm:w-auto"
             >
-              Submit Quiz <CheckCircle className="w-4 h-4 ml-2" />
+              <span className="sm:hidden">Submit</span>
+              <span className="hidden sm:inline">Submit Quiz</span>
+              <CheckCircle className="w-4 h-4 ml-2" />
             </Button>
           ) : !isLastQuestion && canGoNext && !showFeedback ? (
             <Button variant="primary" onClick={() => setShowFeedback(true)} className="w-full sm:w-auto">
-              Check Answer <ChevronRight className="w-4 h-4 ml-2" />
+              <span className="sm:hidden">Check</span>
+              <span className="hidden sm:inline">Check Answer</span>
+              <ChevronRight className="w-4 h-4 ml-2" />
             </Button>
           ) : null}
         </div>

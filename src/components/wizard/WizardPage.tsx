@@ -30,12 +30,12 @@ const FORMATS: { value: LearningFormat; label: string; icon: React.ReactNode; de
 ]
 
 const STEPS = [
-  { id: 'subject', title: 'What to Learn', icon: <Target className="w-5 h-5" /> },
-  { id: 'level', title: 'Your Level', icon: <Brain className="w-5 h-5" /> },
-  { id: 'time', title: 'Time & Duration', icon: <Clock className="w-5 h-5" /> },
-  { id: 'depth', title: 'Depth', icon: <Layers className="w-5 h-5" /> },
-  { id: 'formats', title: 'Preferences', icon: '⚙️' },
-  { id: 'review', title: 'Review', icon: '📋' }
+  { id: 'subject', title: 'What to Learn' },
+  { id: 'level', title: 'Your Level' },
+  { id: 'time', title: 'Time & Duration' },
+  { id: 'depth', title: 'Depth' },
+  { id: 'formats', title: 'Preferences' },
+  { id: 'review', title: 'Review' }
 ]
 
 export const WizardPage: React.FC = () => {
@@ -165,33 +165,18 @@ export const WizardPage: React.FC = () => {
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8" role="navigation" aria-label="Wizard progress">
           <Progress value={((currentStep + 1) / STEPS.length) * 100} size="sm" className="mb-4" />
-          <div className="flex items-center justify-between">
+          <div className="hidden sm:flex items-start">
             {STEPS.map((step, index) => (
-              <div key={step.id} className="flex flex-col items-center relative">
-                <div className={`
-                  w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-all
-                  ${index < currentStep 
-                    ? 'bg-primary-600 text-white' 
-                    : index === currentStep 
-                      ? 'bg-primary-100 text-primary-600 ring-4 ring-primary-100' 
-                      : 'bg-neutral-200 text-neutral-500'
-                  }
-                `}>
-                  {index < currentStep ? (
-                    <CheckCircle className="w-5 h-5" aria-hidden="true" />
-                  ) : (
-                    step.icon
-                  )}
-                </div>
-                <span className={`mt-1.5 text-xs font-medium ${index <= currentStep ? 'text-neutral-700' : 'text-neutral-400'}`}>
+              <div key={step.id} className="flex flex-col items-center flex-1 min-w-0">
+                <span className={`text-xs font-medium text-center leading-tight ${index <= currentStep ? 'text-neutral-700' : 'text-neutral-400'}`}>
                   {step.title}
                 </span>
-                {index < STEPS.length - 1 && (
-                  <div className={`absolute top-5 left-1/2 w-full h-1 -translate-x-1/2 ${index < currentStep ? 'bg-primary-600' : 'bg-neutral-200'}`} aria-hidden="true" />
-                )}
               </div>
             ))}
           </div>
+          <p className="text-sm font-medium text-neutral-600 sm:hidden">
+            Step {currentStep + 1} of {STEPS.length} · {STEPS[currentStep].title}
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} noValidate>
@@ -272,9 +257,9 @@ export const WizardPage: React.FC = () => {
                           className="sr-only"
                           aria-describedby={`${level.value}-desc`}
                         />
-                        <div className="w-5 h-5 rounded-full border-2 flex items-center justify-center mr-4 flex-shrink-0 ${
+                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mr-4 flex-shrink-0 ${
                           formData.knowledgeLevel === level.value ? 'border-primary-500 bg-primary-500' : 'border-neutral-300'
-                        }">
+                        }`}>
                           {formData.knowledgeLevel === level.value && <CheckCircle className="w-3 h-3 text-white" />}
                         </div>
                         <div>
@@ -510,18 +495,18 @@ export const WizardPage: React.FC = () => {
             )}
           </div>
 
-          <div className="mt-8 flex items-center justify-between">
+          <div className="mt-8 grid grid-cols-2 gap-3 sm:flex sm:items-center sm:justify-between">
             <Button
               type="button"
               variant="ghost"
               onClick={handleBack}
               disabled={currentStep === 0}
-              className="hidden sm:inline-flex"
+              className="w-full sm:w-auto"
             >
               <ArrowLeft className="w-4 h-4 mr-2" aria-hidden="true" />
               Back
             </Button>
-            <div className="flex gap-3">
+            <div className="sm:contents">
               {currentStep < STEPS.length - 1 ? (
                 <Button key="wizard-next" type="button" onClick={handleNext} className="w-full sm:w-auto">
                   Next <ArrowRight className="w-4 h-4 ml-2" aria-hidden="true" />

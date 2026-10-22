@@ -25,15 +25,15 @@ const Field: React.FC<FieldProps> = ({ label, icon, id, ...props }) => (
   </div>
 )
 
-const Logo: React.FC = () => (
-  <div className="flex items-center gap-2 justify-center">
-    <svg className="w-9 h-9 text-primary-600" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+const Logo: React.FC<{ compact?: boolean }> = ({ compact = false }) => (
+  <div className="flex items-center gap-2">
+    <svg className={compact ? 'w-7 h-7 sm:w-9 sm:h-9 text-primary-600' : 'w-9 h-9 text-primary-600'} viewBox="0 0 32 32" fill="none" aria-hidden="true">
       <rect width="32" height="32" rx="8" fill="currentColor" />
       <path d="M16 6C10.477 6 6 10.477 6 16C6 21.523 10.477 26 16 26C21.523 26 26 21.523 26 16C26 10.477 21.523 6 16 6ZM16 4C22.627 4 28 9.373 28 16C28 22.627 22.627 28 16 28C9.373 28 4 22.627 4 16C4 9.373 9.373 4 16 4Z" fill="white" />
       <path d="M11 12H21M11 16H19M11 20H17" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       <circle cx="24" cy="8" r="3" fill="#22c55e" />
     </svg>
-    <span className="text-2xl font-bold text-neutral-900">LearnLoop</span>
+    <span className={compact ? 'text-lg sm:text-2xl font-bold text-neutral-900' : 'text-2xl font-bold text-neutral-900'}>LearnLoop</span>
   </div>
 )
 
@@ -88,19 +88,19 @@ export const LoginPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-neutral-50 flex flex-col">
       <header className="border-b border-neutral-200 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
-            <Logo />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+          <Link to="/" className="flex items-center gap-2 min-w-0">
+            <Logo compact />
           </Link>
-          <Link to="/" className="text-sm font-medium text-neutral-600 hover:text-neutral-900 transition-colors">
+          <Link to="/" className="text-sm font-medium text-neutral-600 hover:text-neutral-900 transition-colors shrink-0">
             Back to home
           </Link>
         </div>
       </header>
 
-      <main className="flex-1 flex items-center justify-center px-4 py-12">
-        <div className="w-full max-w-md">
-          <div className="bg-white rounded-2xl border border-neutral-200 shadow-sm p-8">
+      <main className="flex-1 flex px-4 py-8 sm:py-12">
+        <div className="w-full max-w-md my-auto">
+          <div className="bg-white rounded-2xl border border-neutral-200 shadow-sm p-5 sm:p-8">
             <div className="text-center mb-8">
               <h1 className="text-2xl font-bold text-neutral-900">
                 {mode === 'signin' ? 'Welcome back' : 'Create your account'}
