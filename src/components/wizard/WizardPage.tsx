@@ -30,12 +30,12 @@ const FORMATS: { value: LearningFormat; label: string; icon: React.ReactNode; de
 ]
 
 const STEPS = [
-  { id: 'subject', title: 'What to Learn' },
-  { id: 'level', title: 'Your Level' },
-  { id: 'time', title: 'Time & Duration' },
-  { id: 'depth', title: 'Depth' },
-  { id: 'formats', title: 'Preferences' },
-  { id: 'review', title: 'Review' }
+  { id: 'subject', title: 'What to Learn', icon: <Target className="w-5 h-5" /> },
+  { id: 'level', title: 'Your Level', icon: <Brain className="w-5 h-5" /> },
+  { id: 'time', title: 'Time & Duration', icon: <Clock className="w-5 h-5" /> },
+  { id: 'depth', title: 'Depth', icon: <Layers className="w-5 h-5" /> },
+  { id: 'formats', title: 'Preferences', icon: '⚙️' },
+  { id: 'review', title: 'Review', icon: '📋' }
 ]
 
 export const WizardPage: React.FC = () => {
@@ -165,12 +165,30 @@ export const WizardPage: React.FC = () => {
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8" role="navigation" aria-label="Wizard progress">
           <Progress value={((currentStep + 1) / STEPS.length) * 100} size="sm" className="mb-4" />
-          <div className="hidden sm:flex items-start">
+          <div className="flex items-start justify-between">
             {STEPS.map((step, index) => (
-              <div key={step.id} className="flex flex-col items-center flex-1 min-w-0">
-                <span className={`text-xs font-medium text-center leading-tight ${index <= currentStep ? 'text-neutral-700' : 'text-neutral-400'}`}>
+              <div key={step.id} className="flex flex-col items-center relative">
+                <div className={`
+                  relative z-10 w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-all
+                  ${index < currentStep 
+                    ? 'bg-primary-600 text-white' 
+                    : index === currentStep 
+                      ? 'bg-primary-100 text-primary-600 ring-4 ring-primary-100' 
+                      : 'bg-neutral-200 text-neutral-500'
+                  }
+                `}>
+                  {index < currentStep ? (
+                    <CheckCircle className="w-5 h-5" aria-hidden="true" />
+                  ) : (
+                    step.icon
+                  )}
+                </div>
+                <span className={`mt-1.5 hidden sm:block text-xs font-medium text-center leading-tight ${index <= currentStep ? 'text-neutral-700' : 'text-neutral-400'}`}>
                   {step.title}
                 </span>
+                {index < STEPS.length - 1 && (
+                  <div className={`absolute top-5 left-1/2 w-full h-1 -translate-x-1/2 ${index < currentStep ? 'bg-primary-600' : 'bg-neutral-200'}`} aria-hidden="true" />
+                )}
               </div>
             ))}
           </div>
